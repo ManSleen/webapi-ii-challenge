@@ -28,4 +28,16 @@ router.get("/:id", (req, res) => {
     });
 });
 
+// Add new post
+router.post("/", (req, res) => {
+  const postInfo = req.body;
+  Posts.insert(postInfo)
+    .then(post => {
+      res.status(201).json(post);
+    })
+    .catch(error => {
+      res.status(500).json({ message: "There was an error adding the post" });
+    });
+});
+
 module.exports = router;
