@@ -40,4 +40,17 @@ router.post("/", (req, res) => {
     });
 });
 
+//Add a comment to a post using the post's ID
+router.post("/:id/comments", (req, res) => {
+  console.log(req.body);
+  const commentInfo = req.body;
+  Posts.insertComment(commentInfo)
+    .then(comment => {
+      res.status(201).json(comment);
+    })
+    .catch(error => {
+      res.status(500).json({ message: "Could not get comment by post ID" });
+    });
+});
+
 module.exports = router;
