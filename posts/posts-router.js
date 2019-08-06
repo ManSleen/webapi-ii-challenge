@@ -79,4 +79,17 @@ router.delete("/:id", (req, res) => {
     });
 });
 
+//Update a post using specified id using data from request body
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+  Posts.update(id, changes)
+    .then(updated => {
+      res.status(200).json(updated);
+    })
+    .catch(error => {
+      res.status(500).json({ message: "There was an error updating the post" });
+    });
+});
+
 module.exports = router;
