@@ -103,9 +103,9 @@ router.get("/:id/comments", (req, res) => {
 router.delete("/:id", (req, res) => {
   //First we extract the ID of the post we're trying to delete from req.params.id and save it in a variable called postId
   const postId = req.params.id;
-  // We're initializing a variable foundPost to hold our found object
+  // We're initializing a variable foundPost to eventually hold our found object
   let foundPost;
-  // We're going to find the id of the item we're trying to delete
+  // Next we're going to find the id of the item we're trying to delete
   Posts.findById(postId)
     .then(post => {
       // Once we find a matching post, we're going to save the found post into the already-initialized variable foundPost
@@ -114,13 +114,13 @@ router.delete("/:id", (req, res) => {
       Posts.remove(postId)
         .then(post => {
           if (post) {
+            // And then we're returning the foundPost from above to show the user which item was deleted
             res.status(200).json(foundPost);
           } else {
             res.status(404).json({
               message: "The post with the specified ID does not exist"
             });
           }
-          // And then we're returning the foundPost from above to show the user which item was deleted
         })
         .catch(error => {
           res
