@@ -31,13 +31,21 @@ router.get("/:id", (req, res) => {
 // Add new post
 router.post("/", (req, res) => {
   const postInfo = req.body;
-  Posts.insert(postInfo)
-    .then(post => {
-      res.status(201).json(post);
-    })
-    .catch(error => {
-      res.status(500).json({ message: "There was an error adding the post" });
+  if (postInfo.title && postInfo.contents) {
+    Posts.insert(postInfo)
+      .then(post => {
+        res.status(201).json(postInfo);
+      })
+      .catch(error => {
+        res.status(500).json({
+          message: "There was an error while saving the post to the database"
+        });
+      });
+  } else {
+    res.status(400).json({
+      message: "Please provide a title and some content for the post."
     });
+  }
 });
 
 //Add a comment to a post using the post's ID
@@ -70,9 +78,18 @@ router.get("/:id/comments", (req, res) => {
 //Delete a Post using its ID
 router.delete("/:id", (req, res) => {
   const postId = req.params.id;
+  let mPost;
+  Posts.findById(postId)
+    .then(post => {
+      mPost = post;
+    })
+    .catch(error => {
+      res.status(500).json({ message: "Could not find a post with that ID" });
+    });
+
   Posts.remove(postId)
     .then(post => {
-      res.status(200).json(post);
+      res.status(200).json(mPost);
     })
     .catch(error => {
       res.status(500).json({ message: "Could not find a post with that ID" });
