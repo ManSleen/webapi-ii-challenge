@@ -42,7 +42,7 @@ router.post("/", (req, res) => {
 
 //Add a comment to a post using the post's ID
 router.post("/:id/comments", (req, res) => {
-  console.log(req.body);
+  console.log(req.params.id);
   const commentInfo = req.body;
   Posts.insertComment(commentInfo)
     .then(comment => {
@@ -50,6 +50,20 @@ router.post("/:id/comments", (req, res) => {
     })
     .catch(error => {
       res.status(500).json({ message: "Could not get comment by post ID" });
+    });
+});
+
+// GET all comments by post ID
+router.get("/:id/comments", (req, res) => {
+  const postId = req.params.id;
+  Posts.findPostComments(postId)
+    .then(comment => {
+      res.status(200).json(comment);
+    })
+    .catch(error => {
+      res
+        .status(500)
+        .json({ message: "could not fetch comments for that post ID" });
     });
 });
 
