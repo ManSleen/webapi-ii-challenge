@@ -67,4 +67,16 @@ router.get("/:id/comments", (req, res) => {
     });
 });
 
+//Delete a Post using its ID
+router.delete("/:id", (req, res) => {
+  const postId = req.params.id;
+  Posts.remove(postId)
+    .then(post => {
+      res.status(200).json(post);
+    })
+    .catch(error => {
+      res.status(500).json({ message: "Could not find a post with that ID" });
+    });
+});
+
 module.exports = router;
