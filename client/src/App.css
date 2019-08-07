@@ -1,0 +1,15 @@
+html {
+  background-color: rgba(235, 235, 235, 0.384);
+}
+
+.App {
+  text-align: center;
+  margin-top: 30px;
+  background-color: rgba(235, 235, 235, 0.384);
+}
+
+.comments-container {
+  text-align: left;
+  margin-left: 40px;
+  font-size: 0.7rem;
+}
