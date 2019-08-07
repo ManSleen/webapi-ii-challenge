@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Post = ({ post, deletePost }) => {
+const Post = ({ post, deletePost, addComment }) => {
   const [comments, setComments] = useState(null);
 
   const fetchComments = id => {
@@ -73,7 +73,11 @@ const Post = ({ post, deletePost }) => {
 
           <Button onClick={() => deletePost(post.id)}>Delete</Button>
         </ListItem>
-        <CommentsSection comments={comments} />
+        <CommentsSection
+          post={post}
+          addComment={addComment}
+          comments={comments}
+        />
         <Divider component="li" />
       </div>
     );

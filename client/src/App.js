@@ -3,6 +3,7 @@ import axios from "axios";
 
 import PostList from "./components/PostList";
 import AppBar from "./components/AppBar";
+import PostForm from "./components/PostForm";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -43,6 +44,24 @@ function App() {
       .catch(err => console.log(err));
   };
 
+  const addPost = post => {
+    axios
+      .post("http://localhost:8020/api/posts/", post)
+      .then(res => {
+        fetchPosts();
+      })
+      .catch(err => console.log(err));
+  };
+
+  const addComment = (id, comment) => {
+    axios
+      .post(`http://localhost:8020/api/posts/${id}/comments`, comment)
+      .then(res => {
+        fetchPosts();
+      })
+      .catch(err => console.log(err));
+  };
+
   useEffect(() => {
     fetchPosts();
   }, []);
@@ -54,7 +73,12 @@ function App() {
         <Container maxWidth="sm">
           <AppBar />
           <Paper className={classes.root}>
-            <PostList deletePost={deletePost} posts={posts} />
+            <PostForm addPost={addPost} />
+            <PostList
+              addComment={addComment}
+              deletePost={deletePost}
+              posts={posts}
+            />
           </Paper>
         </Container>
       </React.Fragment>
